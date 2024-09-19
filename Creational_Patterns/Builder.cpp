@@ -29,8 +29,14 @@ class builder {
 public:
     virtual void buildOS() = 0;
     virtual void buildSTORAGE() =0;
-    virtual unique_ptr<Product> getProduct() = 0;
     virtual ~builder() = default;
+
+    unique_ptr<Product> getProduct() { 
+        return move(P);
+    }
+
+protected:
+    unique_ptr<Product> P;
 };
 class builderProductA : public builder {
 public:
@@ -44,12 +50,6 @@ public:
     void buildSTORAGE() override {
         this->P->setSTORAGE("256G");
     }
-    unique_ptr<Product> getProduct() override {
-        return move(P);
-    }
-
-private:
-    unique_ptr<Product> P;
 };
 class builderProductB : public builder {
 public:
@@ -63,12 +63,6 @@ public:
     void buildSTORAGE() override {
         this->P->setSTORAGE("128G");
     }
-    unique_ptr<Product> getProduct() override {
-        return move(P);
-    }
-
-private:
-    unique_ptr<Product> P;
 };
 
 class Director {
